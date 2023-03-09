@@ -1,0 +1,56 @@
+<ng-container *ngIf="openChat === false">      
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+      <!-- Tabs Titles -->
+     
+      <!-- Icon -->
+      <div class="fadeIn first">
+        <img src="./assets/images/logo2.JPG"  id="icon" alt="User Icon" />
+      </div>      
+
+      <form [formGroup]="userForm" (ngSubmit)="submitForm()" autocomplete="off" class="p-3 border">
+        
+        <div class="form-floating mb-3">            
+            <input formControlName="name" type="text" class="fadeIn second" placeholder="Enter your name"
+            [class.is-invalid]="submitted && userForm.get('name')?.errors">
+           <br>
+           
+           
+           
+            <span class="text-danger" *ngIf="submitted && userForm.get('name')?.hasError('required')">
+                Please choose a name
+            </span>
+            
+            <span class="text-danger" *ngIf="submitted && userForm.get('name')?.hasError('maxlength') ||
+            userForm.get('name')?.hasError('minlength')">
+                Your name must be at least 3, and maximum 15 characters
+            </span>
+        </div>
+
+        <div class="form-floating" *ngIf="apiErrorMessages.length > 0">
+            <ul class="text-danger">
+                <li *ngFor="let error of apiErrorMessages">
+                    {{error}}
+                </li>
+            </ul>
+        </div>
+
+        <div class="d-grid mt-4 px-4">
+            <button class="btn btn-warning" type="submit">Submit</button>
+        </div>
+    </form>
+  
+      <!-- Remind Passowrd -->
+      <div id="formFooter">
+        <a class="underlineHover" href="#">Forgot Password?</a>
+      </div>
+  
+    </div>
+  </div>
+   
+</ng-container>
+
+
+<ng-container *ngIf="openChat === true">
+    <app-chat (closeChatEmitter)="closeChat()"></app-chat>
+</ng-container>
